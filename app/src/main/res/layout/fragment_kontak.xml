@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <TextView
+                android:id="@+id/tv_kontak_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:text="Team Kerang Ajaib"
+                android:textSize="24sp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_kontak_title"
+                android:layout_centerHorizontal="true">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_tim1"
+                    android:layout_width="140dp"
+                    android:layout_height="165dp"
+                    android:layout_margin="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:id="@+id/iv_tim1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/tv_nama_tim1"
+                            android:layout_alignParentTop="true"
+                            android:src="@mipmap/tim1" />
+
+                        <TextView
+                            android:id="@+id/tv_nama_tim1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/tv_description_tim1"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:text="Christina Purnama Yanti"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_description_tim1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="4dp"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:text="1629101026"
+                            android:textColor="@android:color/secondary_text_dark"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_tim2"
+                    android:layout_width="140dp"
+                    android:layout_height="165dp"
+                    android:layout_margin="8dp"
+                    android:layout_toRightOf="@+id/card_tim1">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:id="@+id/iv_tim2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/tv_nama_tim2"
+                            android:layout_alignParentTop="true"
+                            android:src="@mipmap/tim2" />
+
+                        <TextView
+                            android:id="@+id/tv_nama_tim2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/tv_description_tim2"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:text="I Nyoman Agus Winarta Palguna"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_description_tim2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="4dp"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:text="1629101027"
+                            android:textColor="@android:color/secondary_text_dark"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_tim3"
+                    android:layout_width="140dp"
+                    android:layout_height="165dp"
+                    android:layout_below="@+id/card_tim1"
+                    android:layout_margin="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:id="@+id/iv_tim3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/tv_nama_tim3"
+                            android:layout_alignParentTop="true"
+                            android:src="@mipmap/tim5" />
+
+                        <TextView
+                            android:id="@+id/tv_nama_tim3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/tv_description_tim3"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:text="Lutfi Lubis"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_description_tim3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="4dp"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:text="Ux Designer"
+                            android:textColor="@android:color/secondary_text_dark"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_tim4"
+                    android:layout_width="140dp"
+                    android:layout_height="165dp"
+                    android:layout_below="@+id/card_tim2"
+                    android:layout_margin="8dp"
+                    android:layout_toRightOf="@+id/card_tim3">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:id="@+id/iv_tim4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/tv_nama_tim4"
+                            android:layout_alignParentTop="true"
+                            android:src="@mipmap/tim4" />
+
+                        <TextView
+                            android:id="@+id/tv_nama_tim4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/tv_description_tim4"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:text="I Made Dedik Amijaya"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_description_tim4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="4dp"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:text="1629101028"
+                            android:textColor="@android:color/secondary_text_dark"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_tim5"
+                    android:layout_width="140dp"
+                    android:layout_height="165dp"
+                    android:layout_below="@+id/card_tim4"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:id="@+id/iv_tim5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/tv_nama_tim5"
+                            android:layout_alignParentTop="true"
+                            android:src="@mipmap/tim3" />
+
+                        <TextView
+                            android:id="@+id/tv_nama_tim5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/tv_description_tim5"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:text="Putu Mega Suryawan"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_description_tim5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="4dp"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:text="1629101033"
+                            android:textColor="@android:color/secondary_text_dark"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

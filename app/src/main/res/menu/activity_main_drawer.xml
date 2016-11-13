@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_main"
+            android:icon="@drawable/ic_translate_black_24dp"
+            android:title="Translate" />
+        <!--
+        <item
+          android:id="@+id/nav_gallery"
+          android:icon="@drawable/ic_menu_gallery"
+          android:title="About" />
+      <item
+          android:id="@+id/nav_slideshow"
+          android:icon="@drawable/ic_menu_slideshow"
+          android:title="Help" />
+     <item
+          android:id="@+id/nav_manage"
+          android:icon="@drawable/ic_menu_manage"
+          android:title="Tools" />
+          -->
+    </group>
+
+    <item android:title="Tentang">
+        <menu>
+            <item
+                android:id="@+id/nav_bantuan"
+                android:icon="@drawable/ic_help_black_24dp"
+                android:title="Bantuan" />
+            <item
+                android:id="@+id/nav_kontak"
+                android:icon="@drawable/ic_group_black_24dp"
+                android:title="Kontak" />
+        </menu>
+    </item>
+
+</menu>
