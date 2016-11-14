@@ -41,7 +41,7 @@
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/iv_tim1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                             android:layout_marginTop="8dp"
                             android:layout_weight="2"
                             android:gravity="center"
-                            android:text="Christina Purnama Yanti"
+                            android:text="Christina\nPurnama Yanti"
                             android:textSize="14sp" />
 
                         <TextView
@@ -87,7 +87,7 @@
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/iv_tim2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                             android:layout_marginTop="8dp"
                             android:layout_weight="2"
                             android:gravity="center"
-                            android:text="I Nyoman Agus Winarta Palguna"
+                            android:text="I Nyoman Agus\nWinarta Palguna"
                             android:textSize="14sp" />
 
                         <TextView
@@ -133,7 +133,7 @@
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/iv_tim3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                             android:layout_marginTop="8dp"
                             android:layout_weight="2"
                             android:gravity="center"
-                            android:text="Lutfi Lubis"
+                            android:text="Lutfi\nLubis"
                             android:textSize="14sp" />
 
                         <TextView
@@ -180,7 +180,7 @@
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/iv_tim4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -196,7 +196,7 @@
                             android:layout_marginTop="8dp"
                             android:layout_weight="2"
                             android:gravity="center"
-                            android:text="I Made Dedik Amijaya"
+                            android:text="I Made Dedik\nAmijaya"
                             android:textSize="14sp" />
 
                         <TextView
@@ -227,7 +227,7 @@
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/iv_tim5"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -243,7 +243,7 @@
                             android:layout_marginTop="8dp"
                             android:layout_weight="2"
                             android:gravity="center"
-                            android:text="Putu Mega Suryawan"
+                            android:text="Putu Mega\nSuryawan"
                             android:textSize="14sp" />
 
                         <TextView

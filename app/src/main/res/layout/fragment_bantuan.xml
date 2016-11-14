@@ -22,8 +22,6 @@
             android:layout_centerInParent="true"
             android:layout_marginBottom="16dp"
             attrs:piv_viewPager="@id/pager"
-            attrs:piv_animationType="worm" />
+            attrs:piv_animationType="thinWorm" />
     </RelativeLayout>
-
-
 </RelativeLayout>

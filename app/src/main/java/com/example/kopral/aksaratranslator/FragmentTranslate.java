@@ -64,7 +64,7 @@ public class FragmentTranslate extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 wv.loadUrl("javascript:getAksaraBali('" + et_latin_content.getText().toString().replaceAll("(\\r|\\n|\\r\\n)+", "\\\\n") + "');");
-                Log.d("coba enter", et_latin_content.getText().toString());
+
                 if (!et_latin_content.getText().toString().equalsIgnoreCase("")) {
                     linLay_blank.setVisibility(View.GONE);
                     card_aksara.setVisibility(View.VISIBLE);
