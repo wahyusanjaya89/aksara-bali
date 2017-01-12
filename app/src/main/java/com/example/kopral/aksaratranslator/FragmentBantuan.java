@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import android.view.ViewGroup;
 
 public class FragmentBantuan extends Fragment {
 
-    private static final int NUM_PAGES = 5;
+    private static final int NUM_PAGES = 8;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
 
@@ -55,7 +56,37 @@ public class FragmentBantuan extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            return new FragmentBantuanItem();
+            Fragment fr = new Fragment();
+
+            switch (position) {
+                case 0:
+                    fr = new BantuanItem1();
+                    break; // optional
+                case 1:
+                    fr = new BantuanItem2();
+                    break; // optional
+                case 2:
+                    fr = new BantuanItem3();
+                    break; // optional
+                case 3:
+                    fr = new BantuanItem4();
+                    break; // optional
+                case 4:
+                    fr = new BantuanItem5();
+                    break; // optional
+                case 5:
+                    fr = new BantuanItem6();
+                    break; // optional
+                case 6:
+                    fr = new BantuanItem7();
+                    break; // optional
+                case 7:
+                    fr = new BantuanItem8();
+                    break; // optional
+
+            }
+
+            return fr;
         }
 
         @Override

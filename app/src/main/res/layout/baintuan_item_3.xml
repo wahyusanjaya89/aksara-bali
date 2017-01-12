@@ -7,13 +7,13 @@
         android:layout_height="300dp"
         android:scaleType="centerCrop"
         android:id="@+id/iv_slider_image"
-        android:src="@mipmap/img_3"
+        android:src="@mipmap/img_bantuan_2b"
         android:layout_alignParentTop="true" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TITLE"
+        android:text="AKSARA WIANJANA"
         android:textSize="24sp"
         android:gravity="center"
         android:textColor="@android:color/white"
@@ -29,8 +29,10 @@
         android:gravity="center"
         android:lineSpacingMultiplier="1.2"
         android:layout_below="@+id/tv_slider_title"
-        android:textSize="20sp"
+        android:textSize="14sp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:inputType="textMultiLine"
-        android:text="Petunjuk Penggunaan aplikasi transliterasi aksara bali"
+        android:text="Aksara wianjana adalah aksara bali umum, terdiri dari 18 huruf"
         android:textColor="@android:color/white" />
 </RelativeLayout>

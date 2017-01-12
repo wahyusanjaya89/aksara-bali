@@ -35,6 +35,7 @@ public class FragmentTranslate extends Fragment {
 
     EditText et_latin_content;
     TextView tv_aksara_content;
+    TextView tv_aksara_content_before;
     WebView wv;
     LinearLayout linLay_blank;
     CardView card_aksara;
@@ -52,6 +53,8 @@ public class FragmentTranslate extends Fragment {
         linLay_blank = (LinearLayout) v.findViewById(R.id.linLay_blank);
         card_aksara = (CardView) v.findViewById(R.id.card_aksara);
 
+        tv_aksara_content_before = (TextView) v.findViewById(R.id.tv_aksara_content_before);
+
         Typeface b_simbar = Typeface.createFromAsset(getActivity().getAssets(), "fonts/b_simbar-webfont.ttf");
         tv_aksara_content.setTypeface(b_simbar);
 
@@ -63,7 +66,33 @@ public class FragmentTranslate extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                wv.loadUrl("javascript:getAksaraBali('" + et_latin_content.getText().toString().replaceAll("(\\r|\\n|\\r\\n)+", "\\\\n") + "');");
+                String tekslatin = et_latin_content.getText().toString();
+                String firstChar = "";
+                if (!tekslatin.isEmpty()) {
+                    firstChar = tekslatin.substring(0, 1);
+                }
+                if (firstChar.equalsIgnoreCase("a") ||
+                        firstChar.equalsIgnoreCase("i") ||
+                        firstChar.equalsIgnoreCase("u") ||
+                        firstChar.equalsIgnoreCase("e") ||
+                        firstChar.equalsIgnoreCase("è") ||
+                        firstChar.equalsIgnoreCase("é") ||
+                        firstChar.equalsIgnoreCase("ê") ||
+                        firstChar.equalsIgnoreCase("o")) {
+                    String changefirst = "h" + firstChar;
+                    tekslatin = changefirst + tekslatin.substring(1);
+                }
+
+                tekslatin = tekslatin.replace(" a", " ha");
+                tekslatin = tekslatin.replace(" i", " hi");
+                tekslatin = tekslatin.replace(" u", " hu");
+                tekslatin = tekslatin.replace(" e", " he");
+                tekslatin = tekslatin.replace(" è", " hè");
+                tekslatin = tekslatin.replace(" é", " hé");
+                tekslatin = tekslatin.replace(" ê", " hê");
+                tekslatin = tekslatin.replace(" o", " ho");
+
+                wv.loadUrl("javascript:getAksaraBali('" + tekslatin.replaceAll("(\\r|\\n|\\r\\n)+", "\\\\n") + "');");
 
                 if (!et_latin_content.getText().toString().equalsIgnoreCase("")) {
                     linLay_blank.setVisibility(View.GONE);
@@ -129,6 +158,8 @@ public class FragmentTranslate extends Fragment {
                 @Override
                 public void run() {
                     tv_aksara_content.setText(val);
+                    tv_aksara_content_before.setText(val);
+                    Log.d("Before", val);
                 }
             });
 

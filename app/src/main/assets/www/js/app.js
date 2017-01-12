@@ -17,7 +17,7 @@
         }
     });
 
-function getAksaraBali(stringFromAndroid){
-   var translated = translate(stringFromAndroid) ;
-   window.AndroidApp.getAksara(translated);
+function getAksaraBali(stringFromAndroid) {
+    var translated = translate(stringFromAndroid);
+    window.AndroidApp.getAksara(translated);
 }
