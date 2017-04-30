@@ -1,4 +1,4 @@
-package com.example.kopral.aksaratranslator;
+package com.example.kopral.aksarabali;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
