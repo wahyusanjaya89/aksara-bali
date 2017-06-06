@@ -2,8 +2,11 @@ package com.example.kopral.aksarabali;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -16,9 +19,12 @@ import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kopral.konverter.CekJenisHuruf;
 import com.example.kopral.konverter.KonversiHrf_A;
@@ -45,6 +51,8 @@ import com.example.kopral.konverter.KonversiHrf_W;
 import com.example.kopral.konverter.KonversiHrf_Y;
 import com.example.kopral.konverter.OlahKata;
 
+import java.io.IOException;
+
 /**
  * Created by Kopral on 18/09/16.
  */
@@ -58,8 +66,9 @@ public class FragmentTranslate extends Fragment {
     WebView wv;
     LinearLayout linLay_blank;
     CardView card_aksara;
-
-
+    Button btn_aksara_action_convert;
+    RelativeLayout relLay_aksara_text_container;
+    AndroidBmpUtil abu;
     //=====new script======
     private String aksaraBali;
     private boolean cecek;
@@ -127,16 +136,40 @@ public class FragmentTranslate extends Fragment {
         this.kataDiDB = false;
         //==========
 
+        abu = new AndroidBmpUtil();
 
         et_latin_content = (EditText) v.findViewById(R.id.et_latin_content);
         tv_aksara_content = (TextView) v.findViewById(R.id.tv_aksara_content);
         linLay_blank = (LinearLayout) v.findViewById(R.id.linLay_blank);
         card_aksara = (CardView) v.findViewById(R.id.card_aksara);
+        btn_aksara_action_convert = (Button) v.findViewById(R.id.btn_aksara_action_convert);
+        relLay_aksara_text_container = (RelativeLayout) v.findViewById(R.id.relLay_aksara_text_container);
 
         tv_aksara_content_before = (TextView) v.findViewById(R.id.tv_aksara_content_before);
 
         Typeface b_simbar = Typeface.createFromAsset(getActivity().getAssets(), "fonts/b_simbar-webfont.ttf");
         tv_aksara_content.setTypeface(b_simbar);
+
+        btn_aksara_action_convert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_aksara_content.setDrawingCacheEnabled(true);
+                tv_aksara_content.buildDrawingCache();
+                Bitmap bm = tv_aksara_content.getDrawingCache();
+
+                try {
+                    String fileName = "aksaraTranslator.bmp";
+                    String sdcardBmpPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName;
+                    AndroidBmpUtil bmpUtil = new AndroidBmpUtil();
+                    boolean isSaveResult = bmpUtil.save(bm, sdcardBmpPath);
+                    Toast.makeText(getActivity(), "Menyimpan " + sdcardBmpPath + " : " + String.valueOf(isSaveResult), Toast.LENGTH_LONG).show();
+                } catch (IOException e) {
+                    Toast.makeText(getActivity(), "Tidak Dapat Menyimpan Bitmap", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
         et_latin_content.addTextChangedListener(new TextWatcher() {
             @Override

@@ -16,85 +16,105 @@
 
     </WebView>
 
-    <ScrollView
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_aksara"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/card_latin">
+        android:layout_above="@+id/card_latin"
+        android:layout_margin="8dp"
+        android:visibility="gone"
+        card_view:cardCornerRadius="4dp">
 
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/card_aksara"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:visibility="visible"
-            card_view:cardCornerRadius="4dp"
-            card_view:contentPaddingBottom="8dp"
-            card_view:contentPaddingLeft="16dp"
-            card_view:contentPaddingRight="8dp">
+            android:layout_height="match_parent">
 
             <RelativeLayout
+                android:id="@+id/relLay_aksara_title"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="56dp"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="Aksara Bali"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#F5F5F5">
+
+            </LinearLayout>
+
+            <ScrollView
+                android:id="@+id/sv_aksara_text_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <RelativeLayout
-                    android:id="@+id/relLay_aksara_title"
+                    android:id="@+id/relLay_aksara_text_container"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="8dp">
-
-                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/iv_aksara_title"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_centerVertical="true"
-                        android:tint="@android:color/white"
-                        android:src="@drawable/ic_local_library_black_24dp"
-                        app:civ_fill_color="@color/colorPrimary" />
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="56dp"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:text="Aksara Bali"
-                        android:textColor="@android:color/primary_text_light"
-                        android:textSize="13sp" />
-
-                    <LinearLayout
+                        android:id="@+id/tv_aksara_content"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="#F5F5F5">
-
-                    </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:inputType="textMultiLine"
+                        android:textColor="#000000"
+                        android:background="#FFFFFF"
+                        android:textSize="50sp" />
                 </RelativeLayout>
+            </ScrollView>
 
-                <TextView
-                    android:id="@+id/tv_aksara_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/relLay_aksara_title"
-                    android:inputType="textMultiLine"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="50sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/sv_aksara_text_container"
+                android:background="#F5F5F5" />
 
-                <TextView
-                    android:id="@+id/tv_aksara_content_before"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:visibility="gone"
-                    android:layout_below="@+id/tv_aksara_content"
-                    android:inputType="textMultiLine"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="30sp" />
+
+            <RelativeLayout
+                android:id="@+id/relLay_aksara_action_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sv_aksara_text_container">
+
+                <Button
+                    android:id="@+id/btn_aksara_action_convert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="4dp"
+                    android:text="PROSES" />
             </RelativeLayout>
-        </android.support.v7.widget.CardView>
-    </ScrollView>
+
+            <TextView
+                android:id="@+id/tv_aksara_content_before"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/relLay_aksara_action_container"
+                android:inputType="textMultiLine"
+                android:textColor="@color/colorAccent"
+                android:textSize="30sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
 
     <LinearLayout
         android:id="@+id/linLay_blank"
@@ -104,19 +124,33 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_above="@+id/card_latin"
-            android:src="@drawable/ic_create_black_24dp" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Siap Menerjemahkan"
-            android:textColor="#BDBDBD" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_above="@+id/card_latin"
+                    android:src="@drawable/ic_create_black_24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Siap Menerjemahkan"
+                    android:textColor="#BDBDBD" />
+            </LinearLayout>
+
+        </ScrollView>
+
     </LinearLayout>
-
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_latin"
         android:layout_width="match_parent"
