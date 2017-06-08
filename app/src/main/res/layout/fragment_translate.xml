@@ -99,7 +99,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_margin="4dp"
-                    android:text="PROSES" />
+                    android:text="KIRIM" />
             </RelativeLayout>
 
             <TextView

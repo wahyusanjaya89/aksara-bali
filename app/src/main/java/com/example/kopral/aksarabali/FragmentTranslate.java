@@ -1,9 +1,12 @@
 package com.example.kopral.aksarabali;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +30,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import com.example.kopral.CONST.CONFIG;
 import com.example.kopral.konverter.CekJenisHuruf;
 import com.example.kopral.konverter.KonversiHrf_A;
 import com.example.kopral.konverter.KonversiHrf_B;
@@ -51,7 +71,15 @@ import com.example.kopral.konverter.KonversiHrf_W;
 import com.example.kopral.konverter.KonversiHrf_Y;
 import com.example.kopral.konverter.OlahKata;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Kopral on 18/09/16.
@@ -114,6 +142,10 @@ public class FragmentTranslate extends Fragment {
     DBHelper helper;
     OlahKata ok;
 
+    ProgressDialog pDialog;
+    RequestQueue requestQueue;
+    Bitmap bm;
+    File myFile;
     //=====================
     @Nullable
     @Override
@@ -147,6 +179,9 @@ public class FragmentTranslate extends Fragment {
 
         tv_aksara_content_before = (TextView) v.findViewById(R.id.tv_aksara_content_before);
 
+        pDialog = new ProgressDialog(getActivity());
+        requestQueue = Volley.newRequestQueue(getActivity());
+
         Typeface b_simbar = Typeface.createFromAsset(getActivity().getAssets(), "fonts/b_simbar-webfont.ttf");
         tv_aksara_content.setTypeface(b_simbar);
 
@@ -154,18 +189,22 @@ public class FragmentTranslate extends Fragment {
             @Override
             public void onClick(View v) {
                 tv_aksara_content.setDrawingCacheEnabled(true);
-                tv_aksara_content.buildDrawingCache();
-                Bitmap bm = tv_aksara_content.getDrawingCache();
+                tv_aksara_content.buildDrawingCache(true);
+                bm = tv_aksara_content.getDrawingCache(true);
 
-                try {
-                    String fileName = "aksaraTranslator.bmp";
-                    String sdcardBmpPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName;
-                    AndroidBmpUtil bmpUtil = new AndroidBmpUtil();
-                    boolean isSaveResult = bmpUtil.save(bm, sdcardBmpPath);
-                    Toast.makeText(getActivity(), "Menyimpan " + sdcardBmpPath + " : " + String.valueOf(isSaveResult), Toast.LENGTH_LONG).show();
-                } catch (IOException e) {
-                    Toast.makeText(getActivity(), "Tidak Dapat Menyimpan Bitmap", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
+                String fileName = "aksara_" + UUID.randomUUID().toString() + ".bmp";
+
+                String sdcardBmpPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName;
+
+                myFile = new File(sdcardBmpPath);
+                if (myFile.exists()) {
+                    if (myFile.delete()) {
+                        Log.d("Aksara File", "DELETE: TRUE");
+                        sendBitmap(sdcardBmpPath, bm);
+                    }
+                } else {
+                    Log.d("Aksara File", "FILE NOT EXIST, create");
+                    sendBitmap(sdcardBmpPath, bm);
                 }
 
             }
@@ -318,6 +357,133 @@ public class FragmentTranslate extends Fragment {
         this.indexHrfKonversi = 0;
         this.jmlGantungan = 0;
     }
+
+    private static byte[] readBytesFromFile(String filePath) {
+
+        FileInputStream fileInputStream = null;
+        byte[] bytesArray = null;
+
+        try {
+            File file = new File(filePath);
+            bytesArray = new byte[(int) file.length()];
+
+            //read file into bytes[]
+            fileInputStream = new FileInputStream(file);
+            fileInputStream.read(bytesArray);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fileInputStream != null) {
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        return bytesArray;
+    }
+
+    public void sendBitmap(String filePath, Bitmap bm) {
+
+        try {
+
+            AndroidBmpUtil bmpUtil = new AndroidBmpUtil();
+            boolean isSaveResult = false;
+
+            isSaveResult = bmpUtil.save(bm, filePath);
+            tv_aksara_content.setDrawingCacheEnabled(false);
+
+            Toast.makeText(getActivity(), "Menyimpan " + filePath + " : " + String.valueOf(isSaveResult), Toast.LENGTH_SHORT).show();
+
+            String encodedImage = Base64.encodeToString(readBytesFromFile(filePath), Base64.DEFAULT);
+            Log.d("DATA SEND", "encodedImage: " + encodedImage);
+
+            pDialog.setMessage("Mengirim Data...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+            //*Json Request*//*
+            String url = "http://" + "192.168.43.221" + CONFIG.MAIN_URL + CONFIG.SEND_BMP_URL;
+            JSONObject data_send = new JSONObject();
+            Log.d("DATA SEND", "URL: " + url);
+
+            try {
+                //sLog.d("KIRIM",jsonObject_vote.toString());
+                data_send.put("filebmp", encodedImage);
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                        url,
+                        data_send,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    //pDialog.hide();
+                                    Log.d("DATA SEND", response.getString("status"));
+                                    //hapus file setelah upload selesai
+                                    if (myFile.exists()) {
+                                        if (myFile.delete()) {
+                                            Log.d("Aksara File", "DELETE AFTER SEND: TRUE");
+                                        }
+                                    }
+
+                                    pDialog.dismiss();
+                                    Toast.makeText(getActivity(), "Pengiriman: " + response.getString("status"), Toast.LENGTH_SHORT).show();
+
+                                } catch (JSONException e) {
+                                    pDialog.dismiss();
+                                    Toast.makeText(getActivity(), "Tidak dapat mengirim", Toast.LENGTH_SHORT).show();
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                pDialog.dismiss();
+                                Log.e("ERROR", error.getMessage());
+                                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                                    Toast.makeText(getActivity(), "Jaringan Bermasalah",
+                                            Toast.LENGTH_LONG).show();
+                                } else if (error instanceof AuthFailureError) {
+                                    Toast.makeText(getActivity(), "Username atau Password salah",
+                                            Toast.LENGTH_LONG).show();
+                                } else if (error instanceof ServerError) {
+                                    Toast.makeText(getActivity(), "Server Error",
+                                            Toast.LENGTH_LONG).show();
+                                } else if (error instanceof NetworkError) {
+                                    Toast.makeText(getActivity(), "Network Error",
+                                            Toast.LENGTH_LONG).show();
+                                } else if (error instanceof ParseError) {
+                                    Toast.makeText(getActivity(), "Parse Error",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        //headers.put("Content-Type", "application/json");
+                        headers.put("Accept", "application/json");
+                        //headers.put("Authorization", "Bearer " + CONSTANTS.ACCESS_TOKEN);
+                        return headers;
+                    }
+                };
+                //add request to queue
+                requestQueue.add(jsonObjectRequest);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            Toast.makeText(getActivity(), "Tidak Dapat Menyimpan Bitmap", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
 
     public void setHurufLatin(String HrfLatin) {
         this.hurufLatin = HrfLatin;
