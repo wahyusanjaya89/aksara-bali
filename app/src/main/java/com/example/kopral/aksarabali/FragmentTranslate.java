@@ -2,7 +2,9 @@ package com.example.kopral.aksarabali;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,14 +12,20 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
@@ -137,7 +145,7 @@ public class FragmentTranslate extends Fragment {
     String[] tempKata;
     public Typeface tf;
     public TextView tvhasil;
-
+    //
     CekJenisHuruf cjh;
     DBHelper helper;
     OlahKata ok;
@@ -146,6 +154,13 @@ public class FragmentTranslate extends Fragment {
     RequestQueue requestQueue;
     Bitmap bm;
     File myFile;
+
+    //settings
+    SharedPreferences mySharedPreferences;
+    String server_address;
+    SharedPreferences.Editor editor;
+
+
     //=====================
     @Nullable
     @Override
@@ -153,6 +168,7 @@ public class FragmentTranslate extends Fragment {
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
 
+        setHasOptionsMenu(true);
         View v = inflater.inflate(R.layout.fragment_translate, container, false);
 
         //new script
@@ -184,6 +200,9 @@ public class FragmentTranslate extends Fragment {
 
         Typeface b_simbar = Typeface.createFromAsset(getActivity().getAssets(), "fonts/b_simbar-webfont.ttf");
         tv_aksara_content.setTypeface(b_simbar);
+
+        mySharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        server_address = mySharedPreferences.getString("server_address", "192.168.43.221");
 
         btn_aksara_action_convert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -300,6 +319,56 @@ public class FragmentTranslate extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+        // return;
+        // return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d("MENU item", "ID: " + item.getItemId());
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+                alert.setTitle("Alamat Server");
+                // alert.setMessage("Masukkan Alamat Server");
+
+                // Set an EditText view to get user input
+                final EditText input = new EditText(getActivity());
+                input.setText(server_address);
+
+                alert.setView(input);
+
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        editor = mySharedPreferences.edit();
+                        editor.putString("server_address", input.getText().toString());
+
+                        if (editor.commit()) {
+                            server_address = mySharedPreferences.getString("server_address", "192.168.43.221");
+                        }
+                    }
+                });
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+                alert.show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
@@ -406,7 +475,7 @@ public class FragmentTranslate extends Fragment {
             pDialog.show();
 
             //*Json Request*//*
-            String url = "http://" + "192.168.43.221" + CONFIG.MAIN_URL + CONFIG.SEND_BMP_URL;
+            String url = "http://" + server_address + CONFIG.MAIN_URL + CONFIG.SEND_BMP_URL;
             JSONObject data_send = new JSONObject();
             Log.d("DATA SEND", "URL: " + url);
 
@@ -442,24 +511,30 @@ public class FragmentTranslate extends Fragment {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                pDialog.dismiss();
-                                Log.e("ERROR", error.getMessage());
-                                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                                    Toast.makeText(getActivity(), "Jaringan Bermasalah",
-                                            Toast.LENGTH_LONG).show();
-                                } else if (error instanceof AuthFailureError) {
-                                    Toast.makeText(getActivity(), "Username atau Password salah",
-                                            Toast.LENGTH_LONG).show();
-                                } else if (error instanceof ServerError) {
-                                    Toast.makeText(getActivity(), "Server Error",
-                                            Toast.LENGTH_LONG).show();
-                                } else if (error instanceof NetworkError) {
-                                    Toast.makeText(getActivity(), "Network Error",
-                                            Toast.LENGTH_LONG).show();
-                                } else if (error instanceof ParseError) {
-                                    Toast.makeText(getActivity(), "Parse Error",
-                                            Toast.LENGTH_LONG).show();
+                                try {
+
+                                    pDialog.dismiss();
+                                    Log.e("ERROR", error.getMessage());
+                                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                                        Toast.makeText(getActivity(), "Jaringan Bermasalah",
+                                                Toast.LENGTH_LONG).show();
+                                    } else if (error instanceof AuthFailureError) {
+                                        Toast.makeText(getActivity(), "Username atau Password salah",
+                                                Toast.LENGTH_LONG).show();
+                                    } else if (error instanceof ServerError) {
+                                        Toast.makeText(getActivity(), "Server Error",
+                                                Toast.LENGTH_LONG).show();
+                                    } else if (error instanceof NetworkError) {
+                                        Toast.makeText(getActivity(), "Network Error",
+                                                Toast.LENGTH_LONG).show();
+                                    } else if (error instanceof ParseError) {
+                                        Toast.makeText(getActivity(), "Parse Error",
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                } catch (Exception e) {
+                                    Log.e("Error Response Handler", e.getMessage());
                                 }
+
                             }
                         }) {
                     @Override
